@@ -1,0 +1,103 @@
+{
+  "name": "Niksa Persian Theme - B Nazanin",
+
+  "dataColors": [
+    "#D8848B",
+    "#FFC19E",
+    "#ED794E",
+    "#0AB9E1",
+    "#066E80",
+    "#25BAC4",
+    "#6CEFD9"
+  ],
+
+  "background": "#F8FAFC",
+  "foreground": "#1F2937",
+  "tableAccent": "#0AB9E1",
+
+  "good": "#25BAC4",
+  "neutral": "#FFC19E",
+  "bad": "#ED794E",
+
+  "maximum": "#066E80",
+  "center": "#0AB9E1",
+  "minimum": "#D8848B",
+  "null": "#D9E2E8",
+
+  "textClasses": {
+    "callout": {
+      "fontFace": "B Nazanin",
+      "fontSize": 28,
+      "color": "#1F2937"
+    },
+
+    "title": {
+      "fontFace": "B Nazanin",
+      "fontSize": 14,
+      "color": "#1F2937"
+    },
+
+    "header": {
+      "fontFace": "B Nazanin",
+      "fontSize": 13,
+      "color": "#1F2937"
+    },
+
+    "label": {
+      "fontFace": "B Nazanin",
+      "fontSize": 12,
+      "color": "#1F2937"
+    }
+  },
+
+  "visualStyles": {
+
+    "cardVisual": {
+      "*": {
+        "value": [
+          {
+            "fontFamily": "B Nazanin"
+          }
+        ],
+
+        "label": [
+          {
+            "fontFamily": "B Nazanin"
+          }
+        ],
+
+        "title": [
+          {
+            "fontFamily": "B Nazanin"
+          }
+        ]
+      }
+    },
+
+    "card": {
+      "*": {
+        "labelText": [
+          {
+            "fontFace": "B Nazanin"
+          }
+        ],
+
+        "categoryLabels": [
+          {
+            "fontFace": "B Nazanin"
+          }
+        ]
+      }
+    },
+
+    "multiRowCard": {
+      "*": {
+        "labelText": [
+          {
+            "fontFace": "B Nazanin"
+          }
+        ]
+      }
+    }
+  }
+}
