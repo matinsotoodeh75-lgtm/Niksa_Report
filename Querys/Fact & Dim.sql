@@ -42,15 +42,15 @@ SELECT
 M.FactorMId,
 M.FactorNo,
 M.DefinableNo,
+CONCAT(
+    CAST(D.FactorMId AS VARCHAR(50)),
+    '|',
+    CAST(D.FactorDId AS VARCHAR(50))
+) AS FactorLineKey ,
 CONCAT( CAST(M.[CustCode] AS VARCHAR(50)),
 	'|', CAST(M.[DistributionCode] AS VARCHAR(50)) ) AS CustomerDistributionKey,
 CONCAT( CAST(D.Goods_Code AS VARCHAR(50)), '|', CAST(D.Unit_Code AS VARCHAR(50)))
 AS Goods_unit_code,
-CONCAT(
-        CAST(SanadId AS VARCHAR(50)),
-        '|',
-        CAST(ParameterCode AS VARCHAR(50))
-    ) AS FactorParameterKey,
 M.AInfoSysID,
 M.FDate,
 M.DistributionCode,
@@ -77,36 +77,56 @@ D.Qty / 1000.0 AS Qty,
 D.UPrice/ 10.0 AS UPrice,         
 D.TotalPrice / 10.0 AS TotalPrice, 
 M.StatusFlag,
-D.FactorDStatus,
+D.FactorDStatus
 
-ISNULL(P.Amount, 0) / 10.0 AS Amount 
 INTO stg.FactSales FROM [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorM AS M 
 
 INNER JOIN 
 [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorDGoods AS D
 ON D.FactorMId = M.FactorMId
-LEFT JOIN (
-SELECT 
-	SanadId , ParameterCode , Amount 
-
-FROM [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorDParameter ) AS P ON P.SanadId = D.FactorDId
 
 LEFT JOIN stg.DimEmployee AS E ON LTRIM(RTRIM(M.ReghUser)) = LTRIM(RTRIM(E.EmployeeFullName));
-ALTER TABLE stg.FactSales ALTER COLUMN Amount BIGINT;
+
 
 SELECT * FROM stg.FactSales
 
 DROP TABLE stg.FactSales
 -------------------------------------------------------------------------------------------------------------
-SELECT DISTINCT SanadId as FactorDId ,ParameterCode, ParameterName , ParameterType,
-CONCAT(
-        CAST(SanadId AS VARCHAR(50)),
+SELECT
+    CONCAT(
+        CAST(D.FactorMId AS VARCHAR(50)),
         '|',
-        CAST(ParameterCode AS VARCHAR(50))
-    ) AS FactorParameterKey into stg.DimParameter
+        CAST(D.FactorDId AS VARCHAR(50))
+    ) AS FactorLineKey,
+
+    D.FactorMId,
+    D.FactorDId,
+    M.FDate,
+	P.ParameterCode,
+    P.ParameterName,
+    ISNULL(P.Amount, 0) / 10.0 AS Amount
+
+INTO stg.FactParameter
+
+FROM [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorDGoods AS D
+
+INNER JOIN [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorDParameter AS P
+    ON P.SanadId = D.FactorDId
+
+INNER JOIN [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorM AS M
+    ON M.FactorMId = D.FactorMId;
+ALTER TABLE stg.FactParameter ALTER COLUMN Amount int
+
+SELECT * FROM stg.FactParameter
+
+DROP TABLE stg.FactParameter
+--------------------------------------------------------------------------------------------------------------
+SELECT DISTINCT ParameterCode, ParameterName , ParameterType
+into stg.DimParameter
 from [IMPORTDATA].[pegah].dbo.Dash_OS_V_SaleFactorDParameter
 WHERE ParameterCode IS NOT NULL
 
+SELECT * FROM stg.DimParameter
 
 DROP TABLE stg.DimParameter
 
