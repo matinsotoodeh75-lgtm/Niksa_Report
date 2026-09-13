@@ -235,7 +235,7 @@ DROP TABLE STG.DimProduct
 DROP TABLE STG.DimWarehouse
 DROP TABLE STG.DimDistribution
 DROP TABLE STG.DimEmployee
-DROP TABLE [stg].[Unit_CodeS]
+
 
 
 SELECT * FROM STG.DimCustomer
@@ -245,6 +245,7 @@ SELECT * FROM STG.DimEmployee
 SELECT * FROM STG.DimDistribution
 select * from [stg].[Unit_CodeS]
 
-
+select * from [stg].[WooOrders]
+select * from [stg].[WooCustomers]
 
 -------------------------------------------------------------------------------------------------------------
